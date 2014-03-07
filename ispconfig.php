@@ -58,8 +58,10 @@ class ext_ispconfig_authentication {
 	 * @return array
 	 */
 	protected function getISPConfigUser($username) {
-		$result = mysql_query('SELECT * FROM sys_user where username="' . $username . '"');
-		return  mysql_fetch_assoc($result);
+		$query = sprintf("SELECT * FROM sys_user where username='%s'",
+			mysql_real_escape_string($username));
+		
+		return  mysql_fetch_assoc(mysql_query($query));
 	}
 
 
@@ -172,11 +174,11 @@ class ext_ispconfig_authentication {
 
 		$labelsAndMessages = array(
 			ext_Lang::msg('actlogin'),
-			ext_Lang::err('error', true ),
-			ext_Lang::msg('miscusername', true ),
-			ext_Lang::msg('miscpassword', true ),
-			ext_Lang::msg('misclang', true ),
-			ext_Lang::msg('btnlogin', true ),
+			ext_Lang::err('error', true),
+			ext_Lang::msg('miscusername', true),
+			ext_Lang::msg('miscpassword', true),
+			ext_Lang::msg('misclang', true),
+			ext_Lang::msg('btnlogin', true),
 			ext_Lang::err('error', true)
 			);
 
