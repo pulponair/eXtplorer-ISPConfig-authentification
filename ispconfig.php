@@ -1,12 +1,10 @@
 <?php
-// ensure this file is being included by a parent file
 if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
 /**
- * @version $Id: extplorer.php 201 2011-06-27 09:45:09Z soeren $
  * @package eXtplorer
- * @copyright soeren 2007-2010
- * @author The eXtplorer project (http://extplorer.net)
- * @author The	The QuiX project (http://quixplorer.sourceforge.net)
+ * @copyright Nikolas Hagelstein
+ * @author Nikolas Hagelstein, <nikolas.hagelstein@gmail.com>
+ *
  *
  * @license
  * The contents of this file are subject to the Mozilla Public License
@@ -33,7 +31,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
  */
 
 /**
- * This file handles ispconfig  authentication
+ * This file handles ispconfig authentication
  *
  */
 class ext_ispconfig_authentication {
@@ -136,7 +134,7 @@ class ext_ispconfig_authentication {
 		return $loginSuccessFull && $siteBelongsToUser;
 	}
 
-	function onShowLoginForm() {
+	public function onShowLoginForm() {
 
 		if (!$this->initializeDatabase()) {
 			$statusMessage = 'Connection to ISPConfig database failed. Please check database configure!';
@@ -280,7 +278,7 @@ class ext_ispconfig_authentication {
 EOT;
 	}
 
-	function onLogout() {
+	public function onLogout() {
 		logout();
 	}
 
