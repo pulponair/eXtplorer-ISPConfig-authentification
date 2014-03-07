@@ -117,8 +117,9 @@ class ext_ispconfig_authentication {
 	 * @param $credentials
 	 * @param null $options
 	 * @return bool
+	 * @api
 	 */
-	function onAuthenticate($credentials, $options = null ) {
+	public function onAuthenticate($credentials, $options = null ) {
 		$siteBelongsToUser = false;
 
 		$this->initializeDatabase();
@@ -134,6 +135,12 @@ class ext_ispconfig_authentication {
 		return $loginSuccessFull && $siteBelongsToUser;
 	}
 
+	/**
+	 * Shows the login form
+	 *
+	 * @return void
+	 * @api
+	 */
 	public function onShowLoginForm() {
 
 		if (!$this->initializeDatabase()) {
@@ -278,6 +285,12 @@ class ext_ispconfig_authentication {
 EOT;
 	}
 
+	/**
+	 * The logout
+	 *
+	 * @return void
+	 * @api
+	 */
 	public function onLogout() {
 		logout();
 	}
