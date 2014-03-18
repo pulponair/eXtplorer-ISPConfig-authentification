@@ -60,7 +60,7 @@ class ext_ispconfig_authentication {
 	protected function getISPConfigUser($username) {
 		$query = sprintf("SELECT * FROM sys_user where username='%s'",
 			mysql_real_escape_string($username));
-		
+
 		return  mysql_fetch_assoc(mysql_query($query));
 	}
 
@@ -96,6 +96,19 @@ class ext_ispconfig_authentication {
 	}
 
 	/**
+	 * Checks if a given domain belongs to a given user
+	 *
+	 * @param $user
+	 * @param $domain
+	 * @return bool
+	 */
+	protected function domainBelongsToUser($user, $domain) {
+		$result = mysql_query('SELECT * FROM web_domain WHERE domain="' . $domain . '"' .
+			' AND sys_groupid in (' . $user['groups'] . ')');
+		return mysql_num_rows($result) === 1;
+	}
+
+	/**
 	 * Checks if the current site belongs to the user
 	 *
 	 * @param $user
@@ -105,10 +118,8 @@ class ext_ispconfig_authentication {
 		if ($user['typ'] === 'admin') {
 			$siteBelongsToUser = TRUE;
 		} else {
-			$currentDomain = $this->getCurrentDomain();
-			$result = mysql_query('SELECT * FROM web_domain WHERE domain="' . $currentDomain . '"' .
-				' AND sys_groupid in (' . $user['groups'] . ')');
-			$siteBelongsToUser = mysql_num_rows($result) === 1;
+			$siteBelongsToUser =  $this->domainBelongsToUser($user, $_SERVER['HTTP_HOST']) ||
+				$this->domainBelongsToUser($user, $this->getCurrentDomain());
 		}
 		return $siteBelongsToUser;
 	}
