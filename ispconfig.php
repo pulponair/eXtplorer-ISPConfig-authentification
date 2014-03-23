@@ -64,7 +64,6 @@ class ext_ispconfig_authentication {
 		return  mysql_fetch_assoc(mysql_query($query));
 	}
 
-
 	/**
 	 * Checks if given and stored password are matching. Takes encryption into account
 	 *
@@ -118,7 +117,7 @@ class ext_ispconfig_authentication {
 	}
 
 	/**
-	 * The actual authentification method.
+	 * The actual authentication method.
 	 *
 	 * @param $credentials
 	 * @param null $options
@@ -150,7 +149,7 @@ class ext_ispconfig_authentication {
 	public function onShowLoginForm() {
 
 		if (!$this->initializeDatabase()) {
-			$statusMessage = 'Connection to ISPConfig database failed. Please check database configure!';
+			$statusMessage = 'Connection to ISPConfig database failed. Please check database configuration!';
 		} else {
 			$statusMessage = '';
 		}
