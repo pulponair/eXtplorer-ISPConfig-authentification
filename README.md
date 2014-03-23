@@ -1,5 +1,5 @@
 #eXtplorer ISPConfig authentification
-This authetification plugin allows you to authentificated agains the ISPConfig sys_user table. 
+This authetification plugin allows you to authentificated against the ISPConfig sys_user table. 
 
 So just surf foo.bar/extplorer enter your ISPConfig credentials and if this sites belongs to your ISPConfig user you are in ;)
 
