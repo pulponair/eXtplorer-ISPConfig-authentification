@@ -86,16 +86,6 @@ class ext_ispconfig_authentication {
 	}
 
 	/**
-	 * Gets the current domain we are on
-	 *
-	 * @return mixed
-	 */
-	protected function getCurrentDomain() {
-		preg_match('/(?P<domain>[a-z0-9][a-z0-9\-]{1,63}\.[a-z\.]{2,6})$/i', $_SERVER['HTTP_HOST'], $regs);
-		return $regs['domain'];
-	}
-
-	/**
 	 * Checks if a given domain belongs to a given user
 	 *
 	 * @param $user
@@ -118,8 +108,11 @@ class ext_ispconfig_authentication {
 		if ($user['typ'] === 'admin') {
 			$siteBelongsToUser = TRUE;
 		} else {
-			$siteBelongsToUser =  $this->domainBelongsToUser($user, $_SERVER['HTTP_HOST']) ||
-				$this->domainBelongsToUser($user, $this->getCurrentDomain());
+			$parts = explode('.', $_SERVER['HTTP_HOST']);
+			do {
+				$siteBelongsToUser = $this->domainBelongsToUser($user, implode('.', $parts));
+				array(array_shift($parts));
+			} while (count($parts) > 1 && $siteBelongsToUser === FALSE);
 		}
 		return $siteBelongsToUser;
 	}
